@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 body {
-  @apply bg-yellow-500 h-full overflow-x-hidden;
+  @apply bg-yellow-400 h-full overflow-x-hidden;
 }

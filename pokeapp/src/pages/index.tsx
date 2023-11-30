@@ -1,8 +1,13 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
+//local components import
+import NavBar from "@/components/Navbar";
 
-const inter = Inter({ subsets: ["latin"] });
+//react imports
+import { Fragment } from "react";
 
 export default function Home() {
-  return <div className="text-2xl text-green-500">Hello</div>;
+  return (
+    <Fragment>
+      <NavBar />
+    </Fragment>
+  );
 }

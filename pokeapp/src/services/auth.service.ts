@@ -1,5 +1,5 @@
 // db/auth import
-import { db, auth } from "./firebase";
+import { db, auth } from "./firebase-config";
 
 //firebase auth imports
 import {
@@ -7,6 +7,7 @@ import {
   signInWithPopup,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 
 export const signInWithGoogle = async () => {
@@ -55,5 +56,17 @@ export const signInWithEmailPassword = async (
   } catch (error) {
     // Handle sign-in errors
     console.error("Sign-in error:", error);
+  }
+};
+
+export const userSignOut = async () => {
+  try {
+    await signOut(auth);
+    // Handle successful sign-out
+    console.log("User signed out");
+    // Redirect or perform actions after successful sign-out
+  } catch (error) {
+    // Handle sign-out errors
+    console.error("Sign-out error:", error);
   }
 };
