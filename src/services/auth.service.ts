@@ -24,7 +24,7 @@ export const signInWithGoogle = async () => {
     const { user } = result;
 
     // Extract necessary user information
-    const { displayName, email } = user;
+    const { displayName, email, photoURL } = user;
     const tokenId = await user.getIdToken();
 
     // Store user details in a cookie
@@ -32,10 +32,11 @@ export const signInWithGoogle = async () => {
       displayName,
       email,
       tokenId,
+      photoURL,
     };
 
     // Set the user cookie
-    cookies.set("userData", JSON.stringify(userCookie), { path: "/" });
+    cookies.set("userData", JSON.stringify(userCookie));
 
     console.log("Signed in user:", user);
   } catch (error) {
@@ -76,7 +77,7 @@ export const signInWithEmailPassword = async (
     const user = userCredential.user;
     // Handle successful sign-in
     console.log("User signed in:", user);
-    const { displayName } = user;
+    const { displayName, photoURL } = user;
     const tokenId = await user.getIdToken();
 
     // Store user details in a cookie
@@ -84,10 +85,11 @@ export const signInWithEmailPassword = async (
       displayName,
       email,
       tokenId,
+      photoURL,
     };
 
     // Set the user cookie
-    cookies.set("userData", JSON.stringify(userCookie), { path: "/" });
+    cookies.set("userData", JSON.stringify(userCookie));
   } catch (error) {
     // Handle sign-in errors
     console.error("Sign-in error:", error);
@@ -99,7 +101,7 @@ export const userSignOut = async () => {
   const cookies = new Cookies();
   try {
     await signOut(auth);
-    cookies.remove("userData", { path: "/" });
+    cookies.remove("userData");
 
     // Handle successful sign-out
     console.log("User signed out");

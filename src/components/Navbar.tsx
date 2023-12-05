@@ -10,12 +10,33 @@ import { userSignOut } from "@/services/auth.service";
 import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { useRouter } from "next/router";
 
-const NavBar = () => {
+//if username/diaplay name is empty, we get the username from email
+const getUserName = (email: string): string => {
+  const atIndex = email.indexOf("@");
+  return email.slice(0, atIndex !== -1 ? atIndex : undefined);
+};
+
+//types interface
+interface UserData {
+  displayName: string | null;
+  email: string;
+  tokenId: string;
+  photoURL: string | null;
+}
+
+interface NavBarProps {
+  userData: UserData | null;
+}
+
+const NavBar: React.FC<NavBarProps> = ({ userData }) => {
   const router = useRouter();
   const handleSignOut = async () => {
     await userSignOut();
     router.push("./auth");
   };
+
+  const displayUsername =
+    userData?.displayName || getUserName(userData?.email || "");
 
   return (
     <Navbar fluid rounded>
@@ -36,15 +57,18 @@ const NavBar = () => {
           label={
             <Avatar
               alt="User settings"
-              img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+              img={
+                userData?.photoURL ||
+                `https://www.clevelanddentalhc.com/wp-content/uploads/2018/03/sample-avatar.jpg`
+              }
               rounded
             />
           }
         >
           <Dropdown.Header>
-            <span className="block text-sm">Bonnie Green</span>
+            <span className="block text-sm">{displayUsername}</span>
             <span className="block truncate text-sm font-medium">
-              name@flowbite.com
+              {userData?.email}
             </span>
           </Dropdown.Header>
           <Dropdown.Divider />

@@ -11,10 +11,22 @@ import { GetServerSidePropsContext } from "next";
 //react imports
 import { Fragment } from "react";
 
-export default function Home() {
+interface UserData {
+  displayName: string | null;
+  email: string;
+  tokenId: string;
+  photoURL: string | null;
+  // Add any other necessary fields
+}
+
+interface HomeProps {
+  userData: UserData | null;
+}
+
+export default function Home({ userData }: HomeProps) {
   return (
     <Fragment>
-      <NavBar />
+      <NavBar userData={userData} />
     </Fragment>
   );
 }
@@ -24,7 +36,7 @@ export default function Home() {
 // admin auth const decode
 // fail redirect login
 // success / ==> props ==> data
-import { auth } from "firebase-admin";
+// import { auth } from "firebase-admin";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession(context);
@@ -33,16 +45,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const cookies = new Cookies(context.req.headers.cookie);
   const userData = cookies.get("userData");
   console.log(userData);
-  console.log(session);
+  // console.log(session);
 
-  if (session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
+  // if (session) {
+  //   return {
+  //     redirect: {
+  //       destination: "/",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
   return {
     props: {

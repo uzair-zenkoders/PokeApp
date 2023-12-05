@@ -1,31 +1,37 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import Cookies from "universal-cookie";
 // import { paths } from "./paths";
 
 export function middleware(req: NextRequest) {
-  const userDataCookie = req.cookies.get("userData");
-  const userCookie = userDataCookie ? JSON.parse(userDataCookie.value) : {};
+  // const cookies = new Cookies(req.cookies);
+  // const userData = cookies.get("userData");
+  // const tokenId = userData?.tokenId;
+  // const cookies = new Cookies(req.cookies);
+  // const userCookie = cookies.get("userData");
+  // const tokenId = userCookie?.tokenId;
+  const userData = req.cookies.get("userData")?.value;
+
+  console.log("userData:", userData);
 
   const { pathname } = req.nextUrl.clone();
 
   const publicRoutes = ["/auth"];
+  // const protectedRoutes = ["/"];
 
-  const { tokenId } = userCookie;
-
-  if (token) {
-    if (publicRoutes.includes(pathname))
-      return NextResponse.redirect(new URL("/dashboard", req.url));
-    return NextResponse.next();
+  if (userData && !publicRoutes.includes(pathname)) {
+    return NextResponse.next(); // Token exists and route is not public
   }
 
-  // If not Logged In
-  else if (!token) {
-    if (publicRoutes.includes(pathname)) return NextResponse.next();
-    if (pathname !== "/auth")
-      return NextResponse.redirect(new URL("/auth", req.url));
+  if (userData && publicRoutes.includes(pathname)) {
+    return NextResponse.redirect(new URL("/", req.url)); // Token exists and route is not public
   }
 
-  return NextResponse.next();
+  if (!userData && !publicRoutes.includes(pathname)) {
+    return NextResponse.redirect(new URL("/auth", req.url)); // No token and route is not public
+  }
+
+  return NextResponse.next(); // Either token exists and route is public OR no token and route is public
 }
 
 export const config = {

@@ -3,7 +3,6 @@ import axios from "axios";
 
 //react imports
 import { useCallback, useState, useEffect } from "react";
-import { getSession, signIn } from "next-auth/react";
 
 //Next Imports
 import { NextPageContext } from "next";
@@ -21,9 +20,6 @@ import {
   normalSignup,
   signInWithEmailPassword,
 } from "../services/auth.service";
-
-import { getRedirectResult, signInWithRedirect } from "firebase/auth";
-import { auth, provider } from "../services/firebase-config";
 
 const Auth = () => {
   const router = useRouter();
@@ -135,20 +131,3 @@ const Auth = () => {
 };
 
 export default Auth;
-
-// export async function getServerSideProps(context: NextPageContext) {
-//   const session = await getSession(context);
-
-//   if (session) {
-//     return {
-//       redirect: {
-//         destination: "/",
-//         permanent: false,
-//       },
-//     };
-//   }
-
-//   return {
-//     props: {},
-//   };
-// }
