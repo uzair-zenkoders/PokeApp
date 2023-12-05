@@ -10,12 +10,6 @@ import { userSignOut } from "@/services/auth.service";
 import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { useRouter } from "next/router";
 
-//if username/diaplay name is empty, we get the username from email
-const getUserName = (email: string): string => {
-  const atIndex = email.indexOf("@");
-  return email.slice(0, atIndex !== -1 ? atIndex : undefined);
-};
-
 //types interface
 interface UserData {
   displayName: string | null;
@@ -24,6 +18,7 @@ interface UserData {
   photoURL: string | null;
 }
 
+//Props interface
 interface NavBarProps {
   userData: UserData | null;
 }
@@ -33,6 +28,12 @@ const NavBar: React.FC<NavBarProps> = ({ userData }) => {
   const handleSignOut = async () => {
     await userSignOut();
     router.push("./auth");
+  };
+
+  //if username/diaplay name is empty, we get the username from email
+  const getUserName = (email: string): string => {
+    const atIndex = email.indexOf("@");
+    return email.slice(0, atIndex !== -1 ? atIndex : undefined);
   };
 
   const displayUsername =

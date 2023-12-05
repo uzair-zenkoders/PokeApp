@@ -44,7 +44,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   // Access cookies in the server-side code
   const cookies = new Cookies(context.req.headers.cookie);
   const userData = cookies.get("userData");
-  console.log(userData);
+  // console.log(userData);
   // console.log(session);
 
   // if (session) {
