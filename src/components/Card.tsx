@@ -1,17 +1,18 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
-const capitalizeFirstLetter = (str) => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-};
+// const capitalizeFirstLetter = (str: string) => {
+//   return str.charAt(0).toUpperCase() + str.slice(1);
+// };
 
-const Card = (props) => {
-  const { id, title } = props;
+const Card = ({ id, title }: { id: string; title: string }) => {
+  // const { id, title } = props;
   const router = useRouter();
-  const capitalizedTitle = capitalizeFirstLetter(title);
+  // const capitalizedTitle = capitalizeFirstLetter(title);
 
   const onClick = () => {
-    router.push(`/pokemon/${id}/`);
+    // router.push(`/pokemon/${id}/`);
+    console.log("button clicked");
   };
 
   return (
@@ -25,11 +26,10 @@ const Card = (props) => {
       </a>
       <div className="p-5">
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-          Pokemon Title :{" "}
-          <span className="text-gray-500">{capitalizedTitle}</span>
+          Pokemon Title : <span className="text-gray-500">{title}</span>
         </h5>
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-          Click the button below to view {title} Pokemon's details
+          Click the button below to view {id} Pokemon's details
         </p>
         <div className="text-center mt-5">
           <button
