@@ -4,12 +4,6 @@ import Cookies from "universal-cookie";
 // import { paths } from "./paths";
 
 export function middleware(req: NextRequest) {
-  // const cookies = new Cookies(req.cookies);
-  // const userData = cookies.get("userData");
-  // const tokenId = userData?.tokenId;
-  // const cookies = new Cookies(req.cookies);
-  // const userCookie = cookies.get("userData");
-  // const tokenId = userCookie?.tokenId;
   const userData = req.cookies.get("userData")?.value;
 
   console.log("userData:", userData);
@@ -24,7 +18,7 @@ export function middleware(req: NextRequest) {
   }
 
   if (userData && publicRoutes.includes(pathname)) {
-    return NextResponse.redirect(new URL("/", req.url)); // Token exists and route is not public
+    return NextResponse.redirect(new URL("/", req.url)); //if Token exists and route can not be public
   }
 
   if (!userData && !publicRoutes.includes(pathname)) {

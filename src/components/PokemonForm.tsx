@@ -1,14 +1,29 @@
+//react imports
 import React, { useState } from "react";
 import { Fragment } from "react";
+
+//flowbite(react) imports
 import { Label, TextInput, Button } from "flowbite-react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
+//react toast import
+import toast, { Toaster } from "react-hot-toast";
+
+//firebase crud functions import
+import { addPokemon } from "../services/pokemon.service";
 
 const PokemonForm = () => {
   const [name, setName] = useState("");
   const [baseExperience, setBaseExperience] = useState("");
   const [height, setHeight] = useState(0);
   const [weight, setWeight] = useState(0);
+
+  //clear function after successful submission
+  const resetFields = () => {
+    setName("");
+    setBaseExperience("");
+    setHeight(0);
+    setWeight(0);
+  };
 
   const handleOnSubmit = () => {
     if (name && baseExperience && height && weight) {
@@ -18,9 +33,12 @@ const PokemonForm = () => {
         height,
         weight,
       };
-
+      //adding data to firestore
+      addPokemon({ payload });
       console.log("Payload:", payload);
-      toast.success("Form submitted successfully!");
+      toast.success("Pokemon added successfully");
+      //reset fields
+      resetFields();
     } else {
       // Show error toast for incomplete fields
       toast.error("Please fill in all the fields");
@@ -93,11 +111,11 @@ const PokemonForm = () => {
               placeholder="Pokemon's Weight"
               value={weight}
               onChange={(e) => {
-                const parsedValue = parseFloat(e.target.value); // Parse the string value to a number
+                const parsedValue = parseFloat(e.target.value);
                 if (!isNaN(parsedValue)) {
-                  setWeight(parsedValue); // Set the parsed number value
+                  setWeight(parsedValue);
                 } else {
-                  setWeight(0); // Or handle the case when the input is not a valid number
+                  setWeight(0);
                 }
               }}
             />
@@ -113,6 +131,7 @@ const PokemonForm = () => {
           </div>
         </div>
       </div>
+      <Toaster position="top-right" reverseOrder={true} />
     </Fragment>
   );
 };
