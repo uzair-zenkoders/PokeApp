@@ -34,7 +34,7 @@ const PokemonForm = () => {
         weight,
       };
       //firestore function for adding data to firestore
-      addPokemon({ payload });
+      addPokemon(payload);
       console.log("Payload:", payload);
       toast.success("Pokemon added successfully");
       //reset fields

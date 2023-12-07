@@ -11,7 +11,7 @@ const Card = ({ id, title }: { id: string; title: string }) => {
   // const capitalizedTitle = capitalizeFirstLetter(title);
 
   const onClick = () => {
-    // router.push(`/pokemon/${id}/`);
+    router.push(`/pokemon/${id}/`);
     console.log("button clicked");
   };
 
@@ -29,7 +29,7 @@ const Card = ({ id, title }: { id: string; title: string }) => {
           Pokemon Title : <span className="text-gray-500">{title}</span>
         </h5>
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-          Click the button below to view {id} Pokemon's details
+          Click the button below to view Pokemon's details
         </p>
         <div className="text-center mt-5">
           <button
