@@ -29,6 +29,15 @@ interface NavBarProps {
 const NavBar: React.FC<NavBarProps> = ({ userData }) => {
   const router = useRouter();
 
+  //route to add-pokemon
+  const handleRouteClick = () => {
+    router.push("/add-pokemon");
+  };
+  //route to add-pokemon
+  const handleNavClick = () => {
+    router.push("/");
+  };
+
   //Signout button function
   const handleSignOut = async () => {
     try {
@@ -53,20 +62,29 @@ const NavBar: React.FC<NavBarProps> = ({ userData }) => {
   return (
     <Fragment>
       <Navbar fluid rounded>
-        <Navbar.Brand href="https://flowbite-react.com">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK6cstxEi2k6XYT5KOa30fA9NReP1TeBuoI2lY5wQ&s"
-            className="mr-3 h-6 sm:h-9"
-            alt="PokeApp Logo"
-          />
-          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-            PokeApp
-          </span>
+        <Navbar.Brand>
+          {/* <Link href="/"> */}
+          <div className="flex cursor-pointer" onClick={handleNavClick}>
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK6cstxEi2k6XYT5KOa30fA9NReP1TeBuoI2lY5wQ&s"
+              className="mr-3 h-6 sm:h-9"
+              alt="PokeApp Logo"
+            />
+            <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white  hover:text-yellow-400">
+              PokeApp
+            </span>
+          </div>
+          {/* </Link> */}
         </Navbar.Brand>
 
         <Navbar.Collapse>
-          <Navbar.Link href="/add-pokemon" active>
-            Add Your Pokemon
+          <Navbar.Link>
+            <div
+              className="text-base text-gray-700 dark:text-white ml-4 hover:text-yellow-400 cursor-pointer"
+              onClick={handleRouteClick}
+            >
+              Add Your Pokemon
+            </div>
           </Navbar.Link>
         </Navbar.Collapse>
         <div className="flex md:order-2">

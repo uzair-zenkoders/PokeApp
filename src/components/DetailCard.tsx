@@ -1,13 +1,34 @@
 //react import
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
+import { ChangeEvent } from "react";
 
 //react-hot-toast import
 import toast, { Toaster } from "react-hot-toast";
 
+//local component import(s)
 import Input from "./Input";
-import { editPokeData } from "@/services/pokemon.service";
 
-const DetailsCard = ({ id, pokeData }: { id: any; pokeData: any }) => {
+//local-firebase-service import
+import { deletePokebyId, editPokeData } from "@/services/pokemon.service";
+import { useRouter } from "next/router";
+
+//pokeData interface
+interface PokeData {
+  name: string;
+  weight: string;
+  baseExperience: string;
+  height: string;
+}
+
+//Props interface
+interface DetailsCardProps {
+  id: string;
+  pokeData: PokeData;
+}
+
+const DetailsCard: React.FC<DetailsCardProps> = ({ id, pokeData }) => {
+  //router setup
+  const router = useRouter();
   //editForm Values
   const [baseExperience, setBaseExperience] = useState(pokeData.baseExperience);
   const [height, setHeight] = useState(pokeData.height);
@@ -17,35 +38,32 @@ const DetailsCard = ({ id, pokeData }: { id: any; pokeData: any }) => {
   // payload
   const payload = {
     baseExperience,
-    height,
-    weight,
+    height: Number(height),
+    weight: Number(weight),
   };
 
-  console.log(pokeData);
+  // console.log(pokeData);
   // console.log(payload);
 
   const handleEditClick = () => {
-    console.log("Edit Clicked");
     setIsEditing(true);
   };
 
-  const handleDeleteClick = () => {
-    console.log("DEl Clicked");
+  const handleDeleteClick = async () => {
     toast.success("Pokemon Deleted");
+    await deletePokebyId(id);
+    router.push("/");
   };
 
   const handleSaveClick = () => {
-    console.log("Save clicked");
     editPokeData(id, payload);
     setIsEditing(false);
+    toast.success("Pokemon edited successfully");
   };
 
   const handleCancelClick = () => {
-    console.log("Cancel Clicked");
     setIsEditing(false);
   };
-
-  // useEffect(() => {}, [isEditing]);
 
   return (
     <Fragment>
@@ -84,21 +102,27 @@ const DetailsCard = ({ id, pokeData }: { id: any; pokeData: any }) => {
                 type="text"
                 label="baseExperience"
                 value={baseExperience}
-                onChange={(e: any) => setBaseExperience(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setBaseExperience(e.target.value)
+                }
               />
               <Input
                 id="Height"
                 type="number"
                 label="Height"
                 value={height}
-                onChange={(e: any) => setHeight(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setHeight(e.target.value)
+                }
               />
               <Input
                 id="Weight"
                 type="number"
                 label="Weight"
                 value={weight}
-                onChange={(e: any) => setWeight(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setWeight(e.target.value)
+                }
               />
             </div>
           )}
@@ -107,13 +131,13 @@ const DetailsCard = ({ id, pokeData }: { id: any; pokeData: any }) => {
           {!isEditing ? (
             <div className="flex justify-center mt-6 gap-4">
               <button
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded"
+                className="w-32 bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full"
                 onClick={handleEditClick}
               >
                 Edit
               </button>
               <button
-                className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded"
+                className="w-32 bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-full"
                 onClick={handleDeleteClick}
               >
                 Delete
@@ -122,13 +146,13 @@ const DetailsCard = ({ id, pokeData }: { id: any; pokeData: any }) => {
           ) : (
             <div className="flex justify-center mt-6 gap-4">
               <button
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded"
+                className="w-32 bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full"
                 onClick={handleSaveClick}
               >
                 Save
               </button>
               <button
-                className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded"
+                className="w-32 bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-full"
                 onClick={handleCancelClick}
               >
                 Cancel
@@ -144,32 +168,3 @@ const DetailsCard = ({ id, pokeData }: { id: any; pokeData: any }) => {
 };
 
 export default DetailsCard;
-
-{
-  /* <Card
-  className="max-w-sm  bg-yellow-300 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
-  imgSrc="https://cdn.icon-icons.com/icons2/851/PNG/512/Ultra_Ball_icon-icons.com_67500.png"
-  horizontal
->
-  <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-    {`${props.name}`}
-  </h5>
-  <p className="font-normal text-gray-700 dark:text-gray-400">
-    {`Base Experience: ${props.baseExperience}`}
-  </p>
-  <p className="font-normal text-gray-700 dark:text-gray-400">
-    {`Height: ${props.height}`}
-  </p>
-  <p className="font-normal text-gray-700 dark:text-gray-400">
-    {`Weight: ${props.weight}`}
-  </p>
-  <div className="flex justify-between mt-4">
-    <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-      Edit
-    </button>
-    <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
-      Delete
-    </button>
-  </div>  
-</Card> */
-}

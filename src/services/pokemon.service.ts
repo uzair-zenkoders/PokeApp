@@ -13,16 +13,20 @@ import {
 } from "firebase/firestore";
 
 //Pokemon interface
-export interface Pokemon {
-  id: string;
+export interface IPokemon {
   name: string;
   baseExperience: string;
   height: number;
   weight: number;
 }
 
+//IPokemonData
+export interface IPokemonData extends IPokemon {
+  id: string;
+}
+
 //Pokemon adding function
-export const addPokemon = async (pokemonData: any) => {
+export const addPokemon = async (pokemonData: IPokemon) => {
   try {
     const docRef = await addDoc(collection(db, "pokemons"), pokemonData);
 
@@ -35,7 +39,7 @@ export const addPokemon = async (pokemonData: any) => {
     } else {
       throw new Error("Failed to add Pokemon");
     }
-  } catch (error: any) {
+  } catch (error: any | unknown) {
     console.error("Error adding Pokemon: ", error.message);
     return { success: false, error: error.message };
   }
@@ -43,17 +47,21 @@ export const addPokemon = async (pokemonData: any) => {
 
 //getting all pokemons
 export const getAllPokemon = async () => {
-  const pokemonData: any = [];
+  const pokemonData: IPokemonData[] = [];
   const querySnapshot = await getDocs(collection(db, "pokemons"));
+
   querySnapshot.forEach((doc) => {
-    pokemonData.push({ id: doc.id, ...doc.data() }); //setting pokedata with id
+    const pokemonInfo = doc.data() as IPokemon; // Explicit cast to IPokemon
+    const pokemonWithId: IPokemonData = { id: doc.id, ...pokemonInfo };
+    pokemonData.push(pokemonWithId);
   });
 
+  // console.log("pok : ", pokemonData);
   return pokemonData;
 };
 
 //getSpecific pokemon by ID
-export const getPokemonbyId = async (docId: any) => {
+export const getPokemonbyId = async (docId: string) => {
   const docRef = doc(db, "pokemons", docId);
   const docSnap = await getDoc(docRef);
   const data = docSnap.data();
@@ -68,13 +76,13 @@ export const editPokeData = async (
   try {
     await updateDoc(doc(db, "pokemons", docId), pokeData);
     console.log("Edited");
-  } catch (err) {
+  } catch (err: any | unknown) {
     console.log(err);
     console.log(docId);
   }
 };
 
 //delete specific poke by id
-export const deletePokebyId = async (docId: any) => {
-  await deleteDoc(doc(db, "pokemons"));
+export const deletePokebyId = async (docId: string) => {
+  await deleteDoc(doc(db, "pokemons", docId)); // Specify the document reference using docId
 };

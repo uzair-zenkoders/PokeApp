@@ -2,7 +2,8 @@
 import axios from "axios";
 
 //react imports
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState } from "react";
+import { ChangeEvent } from "react";
 
 //Next Imports
 import { NextPageContext } from "next";
@@ -91,7 +92,9 @@ const Auth = () => {
                   type="text"
                   label="Username"
                   value={name}
-                  onChange={(e: any) => setName(e.target.value)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setName(e.target.value)
+                  }
                 />
               )}
               <Input
@@ -99,14 +102,18 @@ const Auth = () => {
                 type="email"
                 label="Email address"
                 value={email}
-                onChange={(e: any) => setEmail(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setEmail(e.target.value)
+                }
               />
               <Input
                 type="password"
                 id="password"
                 label="Password"
                 value={password}
-                onChange={(e: any) => setPassword(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setPassword(e.target.value)
+                }
               />
             </div>
             <button

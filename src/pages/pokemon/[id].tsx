@@ -6,14 +6,23 @@ import { getPokemonbyId } from "@/services/pokemon.service";
 import { GetServerSidePropsContext } from "next";
 
 //react import(s)
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 
-const detailsPage = ({
+interface IPokeData {
+  baseExperience: string;
+  height: string;
+  name: string;
+  weight: string;
+}
+
+interface detailsPageProps {
+  id: string;
+  pokiData: IPokeData;
+}
+
+const detailsPage: React.FC<detailsPageProps> = ({
   id,
   pokiData: pokeData,
-}: {
-  id: string;
-  pokiData: any;
 }) => {
   const [pokiData, setPokiData] = useState(pokeData);
 
@@ -29,10 +38,19 @@ const detailsPage = ({
 export default detailsPage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const id = context.query.id;
+  const id = context.query.id as string;
   const pokiData = await getPokemonbyId(id);
-  console.log("pk", id, pokiData);
+  if (!pokiData) {
+    // If pokiData is undefined or empty, redirect to "/"
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false, // Set to false if you want temporary redirection
+      },
+    };
+  }
+
   return {
-    props: { id: id, pokiData },
+    props: { id, pokiData },
   };
 }
