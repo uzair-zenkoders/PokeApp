@@ -25,12 +25,22 @@ import {
 //react-hot-toast import
 import toast, { Toaster } from "react-hot-toast";
 
+// react-redux/redux-store imports
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+
+//reducers import
+import { logIn, logOut } from "../redux/Slices/userSlice";
+
 const Auth = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [variant, setVariant] = useState("login");
+
+  //redux states import
+  const dispatch = useDispatch<AppDispatch>();
 
   //toggle function for login/signup
   const toggleVariant = useCallback(() => {
@@ -51,10 +61,19 @@ const Auth = () => {
     }
   };
 
-  //login button function
+  //(emailpass) login button function
   const login = useCallback(async () => {
     try {
-      await signInWithEmailPassword(email, password);
+      const signIn = await signInWithEmailPassword(email, password);
+      console.log(signIn);
+      //now state update in redux
+      // @ts-ignore
+      logIn({
+        tokenId: signIn.tokenId,
+        displayName: signIn.displayName,
+        email: signIn.email,
+        photoURL: signIn.photoURL,
+      });
       router.push("/");
       toast.success("Signin Successful");
     } catch (error) {

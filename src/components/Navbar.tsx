@@ -12,6 +12,8 @@ import { useRouter } from "next/router";
 
 //react-hot-toast import
 import toast, { Toaster } from "react-hot-toast";
+import { useAppSelector } from "@/redux/store";
+import { useSelector } from "react-redux";
 
 //types interface
 interface UserData {
@@ -21,13 +23,38 @@ interface UserData {
   photoURL: string | null;
 }
 
-//Props interface
-interface NavBarProps {
-  userData: UserData | null;
-}
+// //Props interface
+// interface NavBarProps {
+//   userData: UserData | null;
+// }
 
-const NavBar: React.FC<NavBarProps> = ({ userData }) => {
+// const NavBar: React.FC<NavBarProps> = ({ userData }) => {
+const NavBar = () => {
   const router = useRouter();
+  //redux userData:
+  const userData = useAppSelector((state) => state.authReducer.value.username);
+  // console.log("user:", isAuth);
+
+  const authState = useSelector((state: any) => state.auth); // Assuming 'auth' is your slice name
+
+  // Now 'authState' contains the state stored in the 'auth' slice
+
+  // Accessing specific fields from the state
+  // const isAuth = authState.value?.isAuth;
+  // const userToken = authState.value?.userToken;
+  // const username = authState.value?.username;
+  // const userEmail = authState.value?.userEmail;
+  // const userPhoto = authState.value?.userPhoto;
+
+  console.log(authState, userData);
+
+  // ... rest of your component logic
+
+  // const username = useAppSelector((state) => state.user.value?.username);
+  // console.log("Username:", username);
+
+  // const username = useAppSelector((state) => state.user?.value?.username);
+  // console.log("username:", username);
 
   //route to add-pokemon
   const handleRouteClick = () => {
@@ -51,13 +78,13 @@ const NavBar: React.FC<NavBarProps> = ({ userData }) => {
   };
 
   //if username/diaplay name is empty, we get the username from email
-  const getUserName = (email: string): string => {
-    const atIndex = email.indexOf("@");
-    return email.slice(0, atIndex !== -1 ? atIndex : undefined);
-  };
+  // const getUserName = (email: string): string => {
+  //   const atIndex = email.indexOf("@");
+  //   return email.slice(0, atIndex !== -1 ? atIndex : undefined);
+  // };
 
-  const displayUsername =
-    userData?.displayName || getUserName(userData?.email || "");
+  // const displayUsername =
+  //   userData?.displayName || getUserName(userData?.email || "");
 
   return (
     <Fragment>
@@ -94,18 +121,24 @@ const NavBar: React.FC<NavBarProps> = ({ userData }) => {
             label={
               <Avatar
                 alt="User"
-                img={
-                  userData?.photoURL ||
-                  `https://www.clevelanddentalhc.com/wp-content/uploads/2018/03/sample-avatar.jpg`
-                }
+                //   img={
+                //     userData?.photoURL ||
+                //     `https://www.clevelanddentalhc.com/wp-content/uploads/2018/03/sample-avatar.jpg`
+                //   }
+                //   rounded
+                // />
+                img={`https://www.clevelanddentalhc.com/wp-content/uploads/2018/03/sample-avatar.jpg`}
                 rounded
               />
             }
           >
             <Dropdown.Header>
-              <span className="block text-sm">{displayUsername}</span>
+              {/* <span className="block text-sm">{displayUsername}</span> */}
+              {/* <span className="block text-sm">UserName:{username}</span> */}
+              <span className="block text-sm">UserName:</span>
               <span className="block truncate text-sm font-medium">
-                {userData?.email}
+                {/* {userData?.email} */}
+                Email
               </span>
             </Dropdown.Header>
             <Dropdown.Divider />

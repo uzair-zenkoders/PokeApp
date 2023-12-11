@@ -6,7 +6,9 @@ import Cookies from "universal-cookie";
 export function middleware(req: NextRequest) {
   const userData = req.cookies.get("userData")?.value;
 
-  console.log("userData:", userData);
+  console.log("Running middleware...");
+
+  // console.log("userData:", userData);
 
   const { pathname } = req.nextUrl.clone();
 
@@ -18,6 +20,7 @@ export function middleware(req: NextRequest) {
   }
 
   if (userData && publicRoutes.includes(pathname)) {
+    console.log("Have user data...");
     return NextResponse.redirect(new URL("/", req.url)); //if Token exists and route can not be public
   }
 

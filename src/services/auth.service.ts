@@ -24,7 +24,7 @@ export const signInWithGoogle = async () => {
   const { displayName, email, photoURL } = user;
   const tokenId = await user.getIdToken();
   // Store user details in a cookie
-  const userCookie = {
+  const userData = {
     displayName,
     email,
     tokenId,
@@ -32,8 +32,10 @@ export const signInWithGoogle = async () => {
   };
 
   // Set the user cookie
-  cookies.set("userData", JSON.stringify(userCookie));
+  cookies.set("userData", JSON.stringify(userData));
   console.log("Signed in user:", user);
+  //now we will get it in our UI
+  return userData;
 };
 
 //create a user withEmailandPassword
@@ -64,14 +66,16 @@ export const signInWithEmailPassword = async (
   const { displayName, photoURL } = user;
   const tokenId = await user.getIdToken();
   // Store user details in a cookie
-  const userCookie = {
+  const userData = {
     displayName,
     email,
     tokenId,
     photoURL,
   };
   // Set the user cookie
-  cookies.set("userData", JSON.stringify(userCookie));
+  cookies.set("userData", JSON.stringify(userData));
+  //returning so that it is accessible on FE pages
+  return userData;
 };
 
 //funcion for signOut user

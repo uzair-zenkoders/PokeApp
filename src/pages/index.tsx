@@ -1,5 +1,5 @@
 //local components import
-import NavBar from "@/components/Navbar";
+// import NavBar from "@/components/Navbar";
 
 //cookies import
 import Cookies from "universal-cookie";
@@ -16,13 +16,13 @@ import { getAllPokemon } from "@/services/pokemon.service";
 import Card from "@/components/Card";
 import SearchBar from "@/components/SearchBar";
 
-//userData interface
-interface UserData {
-  displayName: string | null;
-  email: string;
-  tokenId: string;
-  photoURL: string | null;
-}
+// //userData interface
+// interface UserData {
+//   displayName: string | null;
+//   email: string;
+//   tokenId: string;
+//   photoURL: string | null;
+// }
 //userData interface
 interface IPokemon {
   id: string;
@@ -32,14 +32,21 @@ interface IPokemon {
   baseExperience: string;
 }
 
+// //HomeProps interface
+// interface HomeProps {
+//   userData: UserData | null;
+//   pokeData: IPokemon[];
+// }
 //HomeProps interface
 interface HomeProps {
-  userData: UserData | null;
-  pokeData: IPokemon[];
+  pokemonData: IPokemon[];
 }
 
-export default function Home({ userData, pokeData: pokemonData }: HomeProps) {
+// export default function Home({ userData, pokeData: pokemonData }: HomeProps) {
+export default function Home({ pokemonData }: HomeProps) {
   const [pokeData, setPokeData] = useState(pokemonData);
+
+  console.log(pokeData);
 
   //searchBar value
   const [searchValue, setSearchValue] = useState("");
@@ -51,17 +58,17 @@ export default function Home({ userData, pokeData: pokemonData }: HomeProps) {
     const targetItem = searchValue.toLowerCase();
 
     // Filter the results based on the search value
-    const filteredData = pokeData.filter((item) =>
+    const filteredData = pokeData.filter((item: IPokemon) =>
       item.name.toLowerCase().includes(targetItem)
     );
     setFilteredData(filteredData);
   };
 
-  console.log(filteredData);
+  console.log("filteredData:", filteredData);
 
   return (
     <Fragment>
-      <NavBar userData={userData} />
+      {/* <NavBar userData={userData} /> */}
       <div className="my-12 mx-40">
         <SearchBar onChange={handleSearch} value={searchValue} />
       </div>
@@ -69,14 +76,14 @@ export default function Home({ userData, pokeData: pokemonData }: HomeProps) {
       <div className="container mx-auto px-4 my-10">
         <div className="flex flex-wrap -mx-4">
           {!searchValue &&
-            pokeData.map((item, index) => (
+            pokeData.map((item: IPokemon, index: any) => (
               <div className="w-full md:w-1/3 px-4 mb-12" key={item.id}>
                 <Card title={item.name} id={item.id} />
                 {(index + 1) % 3 === 0 && <div className="w-full"></div>}
               </div>
             ))}
           {searchValue &&
-            filteredData.map((item, index) => (
+            filteredData.map((item: IPokemon, index) => (
               <div className="w-full md:w-1/3 px-4 mb-12" key={item.id}>
                 <Card title={item.name} id={item.id} />
                 {(index + 1) % 3 === 0 && <div className="w-full"></div>}
@@ -92,14 +99,14 @@ export default function Home({ userData, pokeData: pokemonData }: HomeProps) {
 //serverSideProps
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const pokeData = await getAllPokemon();
-  console.log(pokeData);
+  console.log("pokeData is:", pokeData);
   // Access cookies in the server-side code
   const cookies = new Cookies(context.req.headers.cookie);
-  const userData = cookies.get("userData");
+  // const userData = cookies.get("userData");
   return {
     props: {
-      userData: userData || null,
-      pokeData: pokeData,
+      // userData: userData || null,
+      pokemonData: pokeData,
     },
   };
 }
