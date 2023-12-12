@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type initialState = {
-  value?: AuthState;
+  value: AuthState;
 };
 
 interface UserPayload {
-  userToken: string;
-  username: string;
-  userEmail: string;
-  userPhoto: string;
+  tokenId: string;
+  displayName: string | null;
+  email: string;
+  photoURL: string | null;
 }
 
 type AuthState = {
@@ -37,7 +37,8 @@ export const auth = createSlice({
       return initialState;
     },
     // logIn: (state, action: PayloadAction<UserPayload>) => {
-    logIn: (state, action: any) => {
+    //@ts-ignore
+    logIn: (state, action: PayloadAction<UserPayload>) => {
       return {
         value: {
           isAuth: true,

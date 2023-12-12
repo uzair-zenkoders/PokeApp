@@ -6,7 +6,6 @@ import { useCallback, useState } from "react";
 import { ChangeEvent } from "react";
 
 //Next Imports
-import { NextPageContext } from "next";
 import { useRouter } from "next/router";
 
 //icon(s) import
@@ -52,7 +51,16 @@ const Auth = () => {
   //google button signin function
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithGoogle(); // Call the signInWithGoogle function from auth.service.ts
+      const gSignIn = await signInWithGoogle(); // Call the signInWithGoogle function from auth.service.ts
+      dispatch(
+        // @ts-ignore
+        logIn({
+          tokenId: gSignIn.tokenId,
+          displayName: gSignIn.displayName,
+          email: gSignIn.email,
+          photoURL: gSignIn.photoURL,
+        })
+      );
       toast.success("Signin Successful!");
       router.push("/"); // Redirect after successful sign-in
     } catch (error) {
@@ -65,11 +73,9 @@ const Auth = () => {
   const login = useCallback(async () => {
     try {
       const signIn = await signInWithEmailPassword(email, password);
-      console.log(signIn);
       //now state update in redux
-
-      // @ts-ignore
       dispatch(
+        // @ts-ignore
         logIn({
           tokenId: signIn.tokenId,
           displayName: signIn.displayName,
@@ -90,8 +96,7 @@ const Auth = () => {
     try {
       await normalSignup(email, password);
       toast.success("Registration sucessful");
-
-      // login();
+      //togle Varient
       toggleVariant();
     } catch (error) {
       console.log(error);

@@ -55,8 +55,7 @@ export const getAllPokemon = async () => {
     const pokemonWithId: IPokemonData = { id: doc.id, ...pokemonInfo };
     pokemonData.push(pokemonWithId);
   });
-
-  // console.log("pok : ", pokemonData);
+  //return value
   return pokemonData;
 };
 

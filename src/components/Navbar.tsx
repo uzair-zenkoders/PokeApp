@@ -4,6 +4,7 @@ import React, { Fragment } from "react";
 //next imports
 import Link from "next/link";
 
+//auth(firebase) service
 import { userSignOut } from "@/services/auth.service";
 
 //flowbite imports
@@ -13,7 +14,11 @@ import { useRouter } from "next/router";
 //react-hot-toast import
 import toast, { Toaster } from "react-hot-toast";
 import { useAppSelector } from "@/redux/store";
-import { useSelector } from "react-redux";
+
+//redux slice method import
+import { logOut } from "@/redux/Slices/userSlice";
+
+import { useDispatch } from "react-redux";
 
 //types interface
 interface UserData {
@@ -30,17 +35,25 @@ interface UserData {
 
 // const NavBar: React.FC<NavBarProps> = ({ userData }) => {
 const NavBar = () => {
+  const imgURL =
+    "https://www.clevelanddentalhc.com/wp-content/uploads/2018/03/sample-avatar.jpg";
+  //router
   const router = useRouter();
+  //dispatch
+  const dispatch = useDispatch();
 
-  //redux userData:
-  const username = useAppSelector((state) => state.authReducer.value?.username);
-  const userToken = useAppSelector(
-    (state) => state.authReducer.value?.userToken
+  //redux userState
+  const username = useAppSelector(
+    (state) => state.persistedReducer.auth.value.username
   );
   const userEmail = useAppSelector(
-    (state) => state.authReducer.value?.userEmail
+    (state) => state.persistedReducer.auth.value.userEmail
   );
-  console.log("user:", username, userEmail, userToken);
+  const userPhoto = useAppSelector(
+    (state) => state.persistedReducer.auth.value.userPhoto
+  );
+  console.log("userrr:", username, userEmail, userPhoto);
+  //
 
   //route to add-pokemon
   const handleRouteClick = () => {
@@ -55,6 +68,7 @@ const NavBar = () => {
   const handleSignOut = async () => {
     try {
       await userSignOut();
+      dispatch(logOut());
       router.push("./auth");
       toast.success("You are signed out!");
     } catch (err) {
@@ -64,13 +78,13 @@ const NavBar = () => {
   };
 
   //if username/diaplay name is empty, we get the username from email
-  // const getUserName = (email: string): string => {
-  //   const atIndex = email.indexOf("@");
-  //   return email.slice(0, atIndex !== -1 ? atIndex : undefined);
-  // };
+  const getUserName = (email: string): string => {
+    const atIndex = email.indexOf("@");
+    // return email.slice(0, atIndex !== -1 ? atIndex : undefined);
+    return email.slice(0, atIndex);
+  };
 
-  // const displayUsername =
-  //   userData?.displayName || getUserName(userData?.email || "");
+  const displayUsername = username || getUserName(userEmail);
 
   return (
     <Fragment>
@@ -104,27 +118,12 @@ const NavBar = () => {
           <Dropdown
             arrowIcon={false}
             inline
-            label={
-              <Avatar
-                alt="User"
-                //   img={
-                //     userData?.photoURL ||
-                //     `https://www.clevelanddentalhc.com/wp-content/uploads/2018/03/sample-avatar.jpg`
-                //   }
-                //   rounded
-                // />
-                img={`https://www.clevelanddentalhc.com/wp-content/uploads/2018/03/sample-avatar.jpg`}
-                rounded
-              />
-            }
+            label={<Avatar alt="User" img={userPhoto || imgURL} rounded />}
           >
             <Dropdown.Header>
-              {/* <span className="block text-sm">{displayUsername}</span> */}
-              {/* <span className="block text-sm">UserName:{username}</span> */}
-              <span className="block text-sm">UserName:</span>
+              <span className="block text-sm">{displayUsername}</span>
               <span className="block truncate text-sm font-medium">
-                {/* {userData?.email} */}
-                Email
+                {userEmail}
               </span>
             </Dropdown.Header>
             <Dropdown.Divider />
