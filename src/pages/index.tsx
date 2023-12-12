@@ -70,6 +70,7 @@ export default function Home({ pokemonData }: HomeProps) {
     <Fragment>
       {/* <NavBar userData={userData} /> */}
       <div className="my-12 mx-40">
+        {/* mm */}
         <SearchBar onChange={handleSearch} value={searchValue} />
       </div>
       {/* mapping cards */}
