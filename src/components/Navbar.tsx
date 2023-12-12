@@ -31,30 +31,16 @@ interface UserData {
 // const NavBar: React.FC<NavBarProps> = ({ userData }) => {
 const NavBar = () => {
   const router = useRouter();
+
   //redux userData:
-  const userData = useAppSelector((state) => state.authReducer.value.username);
-  // console.log("user:", isAuth);
-
-  const authState = useSelector((state: any) => state.auth); // Assuming 'auth' is your slice name
-
-  // Now 'authState' contains the state stored in the 'auth' slice
-
-  // Accessing specific fields from the state
-  // const isAuth = authState.value?.isAuth;
-  // const userToken = authState.value?.userToken;
-  // const username = authState.value?.username;
-  // const userEmail = authState.value?.userEmail;
-  // const userPhoto = authState.value?.userPhoto;
-
-  console.log(authState, userData);
-
-  // ... rest of your component logic
-
-  // const username = useAppSelector((state) => state.user.value?.username);
-  // console.log("Username:", username);
-
-  // const username = useAppSelector((state) => state.user?.value?.username);
-  // console.log("username:", username);
+  const username = useAppSelector((state) => state.authReducer.value?.username);
+  const userToken = useAppSelector(
+    (state) => state.authReducer.value?.userToken
+  );
+  const userEmail = useAppSelector(
+    (state) => state.authReducer.value?.userEmail
+  );
+  console.log("user:", username, userEmail, userToken);
 
   //route to add-pokemon
   const handleRouteClick = () => {

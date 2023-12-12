@@ -12,10 +12,10 @@ interface UserPayload {
 }
 
 type AuthState = {
-  isAuth?: boolean;
-  userToken?: String;
+  isAuth: boolean;
+  userToken: String;
   username?: string;
-  userEmail?: string;
+  userEmail: string;
   userPhoto?: string;
 };
 

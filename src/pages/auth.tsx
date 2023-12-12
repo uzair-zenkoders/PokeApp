@@ -67,13 +67,16 @@ const Auth = () => {
       const signIn = await signInWithEmailPassword(email, password);
       console.log(signIn);
       //now state update in redux
+
       // @ts-ignore
-      logIn({
-        tokenId: signIn.tokenId,
-        displayName: signIn.displayName,
-        email: signIn.email,
-        photoURL: signIn.photoURL,
-      });
+      dispatch(
+        logIn({
+          tokenId: signIn.tokenId,
+          displayName: signIn.displayName,
+          email: signIn.email,
+          photoURL: signIn.photoURL,
+        })
+      );
       router.push("/");
       toast.success("Signin Successful");
     } catch (error) {
