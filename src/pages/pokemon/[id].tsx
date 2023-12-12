@@ -20,10 +20,11 @@ interface detailsPageProps {
   pokiData: IPokeData;
 }
 
-const detailsPage: NextPage<detailsPageProps> = ({
+const DetailsPage: NextPage<detailsPageProps> = ({
   id,
   pokiData: pokeData,
 }) => {
+  // const [pokiData, setPokiData] = useState(pokeData);
   const [pokiData, setPokiData] = useState(pokeData);
 
   // console.log(pokiData);
@@ -35,7 +36,7 @@ const detailsPage: NextPage<detailsPageProps> = ({
   );
 };
 
-export default detailsPage;
+export default DetailsPage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const id = context.query.id as string;

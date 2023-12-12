@@ -68,6 +68,7 @@ const NavBar = () => {
   const handleSignOut = async () => {
     try {
       await userSignOut();
+      //@ts-ignore
       dispatch(logOut());
       router.push("./auth");
       toast.success("You are signed out!");
