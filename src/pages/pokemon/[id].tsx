@@ -3,7 +3,7 @@ import DetailsCard from "@/components/DetailCard";
 import { getPokemonbyId } from "@/services/pokemon.service";
 
 //next import(s)
-import { GetServerSidePropsContext } from "next";
+import { GetServerSidePropsContext, NextPage } from "next";
 
 //react import(s)
 import React, { Fragment, useState } from "react";
@@ -20,7 +20,7 @@ interface detailsPageProps {
   pokiData: IPokeData;
 }
 
-const detailsPage: React.FC<detailsPageProps> = ({
+const detailsPage: NextPage<detailsPageProps> = ({
   id,
   pokiData: pokeData,
 }) => {
