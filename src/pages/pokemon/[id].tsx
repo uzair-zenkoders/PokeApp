@@ -26,7 +26,7 @@ const detailsPage: NextPage<detailsPageProps> = ({
 }) => {
   const [pokiData, setPokiData] = useState(pokeData);
 
-  console.log(pokiData);
+  // console.log(pokiData);
 
   return (
     <Fragment>
