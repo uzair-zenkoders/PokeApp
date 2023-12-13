@@ -74,10 +74,10 @@ export const editPokeData = async (
 ) => {
   try {
     await updateDoc(doc(db, "pokemons", docId), pokeData);
-    console.log("Edited");
+    // console.log("Edited");
   } catch (err: any | unknown) {
-    console.log(err);
-    console.log(docId);
+    // console.log(err);
+    // console.log(docId);
   }
 };
 

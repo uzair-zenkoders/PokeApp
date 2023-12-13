@@ -56,7 +56,9 @@ const Auth = () => {
   //google button signin function
   const handleGoogleSignIn = async () => {
     try {
+      setIsLoading(true);
       const gSignIn = await signInWithGoogle(); // Call the signInWithGoogle function from auth.service.ts
+      // router.push("./");
       dispatch(
         // @ts-ignore
         logIn({
@@ -67,8 +69,9 @@ const Auth = () => {
         })
       );
       toast.success("Signin Successful!");
-      // router.push("/"); // Redirect after successful sign-in
+      router.push("/"); // Redirect after successful sign-in
     } catch (error) {
+      setIsLoading(false);
       console.error("Google Sign-In Error:", error);
       toast.error("Something went wrong, please try again!");
     }
@@ -93,7 +96,7 @@ const Auth = () => {
       setIsLoading(false);
       toast.success("Signin Successful");
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setIsLoading(false);
       toast.error("Error signing in, please Try again");
     }
@@ -109,7 +112,7 @@ const Auth = () => {
       //togle Varient
       toggleVariant();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       setIsLoading(false);
       toast.error("Registration not successful");
     }

@@ -12,7 +12,6 @@ const Card = ({ id, title }: { id: string; title: string }) => {
 
   const onClick = () => {
     router.push(`/pokemon/${id}/`);
-    console.log("button clicked");
   };
 
   return (

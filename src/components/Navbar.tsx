@@ -1,9 +1,6 @@
 //react imports
 import React, { Fragment } from "react";
 
-//next imports
-import Link from "next/link";
-
 //auth(firebase) service
 import { userSignOut } from "@/services/auth.service";
 
@@ -20,20 +17,6 @@ import { logOut } from "@/redux/Slices/userSlice";
 
 import { useDispatch } from "react-redux";
 
-//types interface
-interface UserData {
-  displayName: string | null;
-  email: string;
-  tokenId: string;
-  photoURL: string | null;
-}
-
-// //Props interface
-// interface NavBarProps {
-//   userData: UserData | null;
-// }
-
-// const NavBar: React.FC<NavBarProps> = ({ userData }) => {
 const NavBar = () => {
   const imgURL =
     "https://www.clevelanddentalhc.com/wp-content/uploads/2018/03/sample-avatar.jpg";
@@ -52,7 +35,7 @@ const NavBar = () => {
   const userPhoto = useAppSelector(
     (state) => state.persistedReducer.auth.value.userPhoto
   );
-  console.log("userrr:", username, userEmail, userPhoto);
+  // console.log("userrr:", username, userEmail, userPhoto);
   //
 
   //route to add-pokemon
@@ -73,7 +56,7 @@ const NavBar = () => {
       router.push("./auth");
       toast.success("You are signed out!");
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       toast.error("Signout failed");
     }
   };
@@ -81,7 +64,6 @@ const NavBar = () => {
   //if username/diaplay name is empty, we get the username from email
   const getUserName = (email: string): string => {
     const atIndex = email.indexOf("@");
-    // return email.slice(0, atIndex !== -1 ? atIndex : undefined);
     return email.slice(0, atIndex);
   };
 
@@ -102,7 +84,6 @@ const NavBar = () => {
               PokeApp
             </span>
           </div>
-          {/* </Link> */}
         </Navbar.Brand>
 
         <Navbar.Collapse>

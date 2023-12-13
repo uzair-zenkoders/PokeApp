@@ -46,7 +46,7 @@ interface HomeProps {
 export default function Home({ pokemonData }: HomeProps) {
   const [pokeData, setPokeData] = useState(pokemonData);
 
-  console.log(pokeData);
+  // console.log(pokeData);
 
   //searchBar value
   const [searchValue, setSearchValue] = useState("");
@@ -64,7 +64,7 @@ export default function Home({ pokemonData }: HomeProps) {
     setFilteredData(filteredData);
   };
 
-  console.log("filteredData:", filteredData);
+  // console.log("filteredData:", filteredData);
 
   return (
     <Fragment>
@@ -100,7 +100,7 @@ export default function Home({ pokemonData }: HomeProps) {
 //serverSideProps
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const pokeData = await getAllPokemon();
-  console.log("pokeData is:", pokeData);
+  // console.log("pokeData is:", pokeData);
   // Access cookies in the server-side code
   const cookies = new Cookies(context.req.headers.cookie);
   // const userData = cookies.get("userData");

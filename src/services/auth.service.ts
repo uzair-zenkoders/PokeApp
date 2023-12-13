@@ -33,7 +33,7 @@ export const signInWithGoogle = async () => {
 
   // Set the user cookie
   cookies.set("userData", JSON.stringify(userData));
-  console.log("Signed in user:", user);
+  // console.log("Signed in user:", user);
   //now we will get it in our UI
   return userData;
 };
@@ -46,7 +46,7 @@ export const normalSignup = async (email: string, password: string) => {
     password
   );
   const user = userCredential.user;
-  console.log("User signed up:", user);
+  // console.log("User signed up:", user);
 };
 
 //signinWithEmailandPassword Function
@@ -62,7 +62,7 @@ export const signInWithEmailPassword = async (
   );
   const user = userCredential.user;
   // Handle successful sign-in
-  console.log("User signed in:", user);
+  // console.log("User signed in:", user);
   const { displayName, photoURL } = user;
   const tokenId = await user.getIdToken();
   // Store user details in a cookie
@@ -84,5 +84,5 @@ export const userSignOut = async () => {
   // try {
   await signOut(auth);
   cookies.remove("userData");
-  console.log("User signed out");
+  // console.log("User signed out");
 };

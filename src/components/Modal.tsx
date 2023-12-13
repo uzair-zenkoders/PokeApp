@@ -1,7 +1,7 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 const Modal = () => {
-  return <></>;
+  return <Fragment></Fragment>;
 };
 
 export default Modal;
