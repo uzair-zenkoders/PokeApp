@@ -1,10 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
-// const capitalizeFirstLetter = (str: string) => {
-//   return str.charAt(0).toUpperCase() + str.slice(1);
-// };
-
 const Card = ({ id, title }: { id: string; title: string }) => {
   // const { id, title } = props;
   const router = useRouter();
