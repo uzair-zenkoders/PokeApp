@@ -14,6 +14,9 @@ import { FcGoogle } from "react-icons/fc";
 //local component import
 import Input from "../components/Input";
 
+//loader import
+import Spinner from "../components/Spinner";
+
 //importing signinwithgoogle
 import {
   signInWithGoogle,
@@ -28,8 +31,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 
-//reducers import
-import { logIn, logOut } from "../redux/Slices/userSlice";
+//reducer(s) import
+import { logIn } from "../redux/Slices/userSlice";
 
 const Auth = () => {
   const router = useRouter();
@@ -37,8 +40,10 @@ const Auth = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [variant, setVariant] = useState("login");
+  const [isLoading, setIsLoading] = useState(false);
+  const loader = "loading...";
 
-  //redux states import
+  //useDispatch
   const dispatch = useDispatch<AppDispatch>();
 
   //toggle function for login/signup
@@ -62,7 +67,7 @@ const Auth = () => {
         })
       );
       toast.success("Signin Successful!");
-      router.push("/"); // Redirect after successful sign-in
+      // router.push("/"); // Redirect after successful sign-in
     } catch (error) {
       console.error("Google Sign-In Error:", error);
       toast.error("Something went wrong, please try again!");
@@ -72,6 +77,7 @@ const Auth = () => {
   //(emailpass) login button function
   const login = useCallback(async () => {
     try {
+      setIsLoading(true);
       const signIn = await signInWithEmailPassword(email, password);
       //now state update in redux
       dispatch(
@@ -84,9 +90,11 @@ const Auth = () => {
         })
       );
       router.push("/");
+      setIsLoading(false);
       toast.success("Signin Successful");
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
       toast.error("Error signing in, please Try again");
     }
   }, [email, password, router]);
@@ -94,12 +102,15 @@ const Auth = () => {
   //register button function
   const register = useCallback(async () => {
     try {
+      setIsLoading(true);
       await normalSignup(email, password);
+      setIsLoading(false);
       toast.success("Registration sucessful");
       //togle Varient
       toggleVariant();
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
       toast.error("Registration not successful");
     }
   }, [email, name, password, login]);
@@ -145,9 +156,15 @@ const Auth = () => {
             </div>
             <button
               onClick={variant === "login" ? login : register}
-              className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition"
+              disabled={isLoading}
+              className={` ${
+                isLoading
+                  ? "bg-white"
+                  : "bg-red-600  hover:bg-red-700 transition"
+              } py-3 text-white rounded-md w-full mt-10 `}
             >
-              {variant === "login" ? "Login" : "Sign up"}
+              {/* {isLoading && variant === "login" ? "Login" : "Sign up"} */}
+              {isLoading ? <Spinner /> : variant}
             </button>
             <div className="flex flex-row items-center gap-4 mt-8 justify-center">
               <div
