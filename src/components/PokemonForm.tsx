@@ -11,6 +11,9 @@ import toast, { Toaster } from "react-hot-toast";
 //firebase crud functions import
 import { addPokemon } from "../services/pokemon.service";
 
+//types import
+import { IPokeData } from "@/types/PokeData.interface";
+
 const PokemonForm = () => {
   const [name, setName] = useState("");
   const [baseExperience, setBaseExperience] = useState("");
@@ -27,7 +30,7 @@ const PokemonForm = () => {
 
   const handleOnSubmit = () => {
     if (name && baseExperience && height && weight) {
-      const payload = {
+      const payload: IPokeData = {
         name,
         baseExperience,
         height,
@@ -35,7 +38,6 @@ const PokemonForm = () => {
       };
       //firestore function for adding data to firestore
       addPokemon(payload);
-      // console.log("Payload:", payload);
       toast.success("Pokemon added successfully");
       //reset fields
       resetFields();

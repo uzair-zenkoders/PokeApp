@@ -33,7 +33,7 @@ const Card = ({ id, title }: { id: string; title: string }) => {
         <div className="text-center mt-5">
           <button
             type="button"
-            className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-600  hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 rounded-full"
+            className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-600  hover:bg-white hover:text-yellow-400 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 rounded-full"
             onClick={onClick}
           >
             View Details

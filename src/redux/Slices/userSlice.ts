@@ -1,22 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+//types import
+import { IAuthState } from "@/types/AuthState.inteface";
+import { IUserPayload } from "@/types/UserPayload.interface";
 
 type initialState = {
-  value: AuthState;
-};
-
-interface UserPayload {
-  tokenId: string;
-  displayName: string | null;
-  email: string;
-  photoURL: string | null;
-}
-
-type AuthState = {
-  isAuth: boolean;
-  userToken: String;
-  username?: string;
-  userEmail: string;
-  userPhoto?: string;
+  value: IAuthState;
 };
 
 const initialState = {
@@ -38,7 +26,7 @@ export const auth = createSlice({
     },
     // logIn: (state, action: PayloadAction<UserPayload>) => {
     //@ts-ignore
-    logIn: (state, action: PayloadAction<UserPayload>) => {
+    logIn: (state, action: PayloadAction<IUserPayload>) => {
       return {
         value: {
           isAuth: true,

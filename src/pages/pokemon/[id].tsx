@@ -8,12 +8,8 @@ import { GetServerSidePropsContext, NextPage } from "next";
 //react import(s)
 import React, { Fragment, useState } from "react";
 
-interface IPokeData {
-  baseExperience: string;
-  height: string;
-  name: string;
-  weight: string;
-}
+//type import
+import { IPokeData } from "@/types/PokeData.interface";
 
 interface detailsPageProps {
   id: string;
@@ -35,6 +31,7 @@ const DetailsPage: NextPage<detailsPageProps> = ({
 
 export default DetailsPage;
 
+//serverSide Props
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const id = context.query.id as string;
   const pokiData = await getPokemonbyId(id);

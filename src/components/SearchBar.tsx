@@ -1,8 +1,14 @@
+//react import(s)
 import React from "react";
-import { useState } from "react";
+import { ChangeEvent } from "react";
 
-const SearchBar = ({ value, onChange }: any) => {
-  // const [value, setValue] = useState("");
+interface PropsInterface {
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+const SearchBar: React.FC<PropsInterface> = ({ value, onChange }) => {
+  //
   return (
     <form>
       <div className="flex">

@@ -1,6 +1,3 @@
-//importing axios
-import axios from "axios";
-
 //react imports
 import { useCallback, useState } from "react";
 import { ChangeEvent } from "react";
@@ -41,7 +38,6 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [variant, setVariant] = useState("login");
   const [isLoading, setIsLoading] = useState(false);
-  const loader = "loading...";
 
   //useDispatch
   const dispatch = useDispatch<AppDispatch>();
@@ -77,7 +73,7 @@ const Auth = () => {
     }
   };
 
-  //(emailpass) login button function
+  //(email-pass) login button function
   const login = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -166,7 +162,6 @@ const Auth = () => {
                   : "bg-red-600  hover:bg-red-700 transition"
               } py-3 text-white rounded-md w-full mt-10 `}
             >
-              {/* {isLoading && variant === "login" ? "Login" : "Sign up"} */}
               {isLoading ? <Spinner /> : variant}
             </button>
             <div className="flex flex-row items-center gap-4 mt-8 justify-center">

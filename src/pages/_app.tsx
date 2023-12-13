@@ -1,5 +1,6 @@
 //next imports
 import type { AppProps } from "next/app";
+import Head from "next/head";
 
 //css import
 import "@/styles/globals.css";
@@ -16,12 +17,17 @@ import { persistor } from "@/redux/store";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ReduxProvider>
-      <HigherOrderComponent>
-        <PersistGate loading={null} persistor={persistor}>
-          <Component {...pageProps} />
-        </PersistGate>
-      </HigherOrderComponent>
-    </ReduxProvider>
+    <>
+      <Head>
+        <title>PokeApp</title>
+      </Head>
+      <ReduxProvider>
+        <HigherOrderComponent>
+          <PersistGate loading={null} persistor={persistor}>
+            <Component {...pageProps} />
+          </PersistGate>
+        </HigherOrderComponent>
+      </ReduxProvider>
+    </>
   );
 }

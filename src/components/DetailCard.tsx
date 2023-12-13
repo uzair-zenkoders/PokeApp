@@ -12,18 +12,13 @@ import Input from "./Input";
 import { deletePokebyId, editPokeData } from "@/services/pokemon.service";
 import { useRouter } from "next/router";
 
-//pokeData interface
-interface PokeData {
-  name: string;
-  weight: string;
-  baseExperience: string;
-  height: string;
-}
+//type(s) import
+import { IPokeData } from "@/types/PokeData.interface";
 
 //Props interface
 interface DetailsCardProps {
   id: string;
-  pokeData: PokeData;
+  pokeData: IPokeData;
 }
 
 const DetailsCard: React.FC<DetailsCardProps> = ({ id, pokeData }) => {
@@ -31,8 +26,8 @@ const DetailsCard: React.FC<DetailsCardProps> = ({ id, pokeData }) => {
   const router = useRouter();
   //editForm Values
   const [baseExperience, setBaseExperience] = useState(pokeData.baseExperience);
-  const [height, setHeight] = useState(pokeData.height);
-  const [weight, setWeight] = useState(pokeData.weight);
+  const [height, setHeight] = useState<number>(pokeData.height);
+  const [weight, setWeight] = useState<number>(pokeData.weight);
   //editing state
   const [isEditing, setIsEditing] = useState(false);
   // payload
@@ -41,9 +36,6 @@ const DetailsCard: React.FC<DetailsCardProps> = ({ id, pokeData }) => {
     height: Number(height),
     weight: Number(weight),
   };
-
-  // console.log(pokeData);
-  // console.log(payload);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -110,18 +102,18 @@ const DetailsCard: React.FC<DetailsCardProps> = ({ id, pokeData }) => {
                 id="Height"
                 type="number"
                 label="Height"
-                value={height}
+                value={height.toString()}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setHeight(e.target.value)
+                  setHeight(Number(e.target.value))
                 }
               />
               <Input
                 id="Weight"
                 type="number"
                 label="Weight"
-                value={weight}
+                value={weight.toString()}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setWeight(e.target.value)
+                  setWeight(Number(e.target.value))
                 }
               />
             </div>
