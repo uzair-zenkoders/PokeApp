@@ -2,9 +2,9 @@
 import { ChangeEvent, Fragment, useState } from "react";
 import { getAllPokemon } from "@/services/pokemon.service";
 
-//local Card Import
+//local Components Import
 import Card from "@/components/Card";
-import SearchBar from "@/components/SearchBar";
+import NewSearchBar from "@/components/NewSearchBar";
 
 //type(s) import
 import { IPokemonData } from "@/types/Pokemon.interface";
@@ -36,7 +36,8 @@ export default function Home({ pokemonData }: HomeProps) {
     <Fragment>
       <div className="my-12 mx-40">
         {/* searchBar */}
-        <SearchBar onChange={handleSearch} value={searchValue} />
+        {/* <SearchBar onChange={handleSearch} value={searchValue} /> */}
+        <NewSearchBar onChange={handleSearch} value={searchValue} />
       </div>
       {/* mapping cards */}
       <div className="container mx-auto px-4 my-10">

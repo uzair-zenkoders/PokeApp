@@ -14,6 +14,9 @@ import Input from "../components/Input";
 //loader import
 import Spinner from "../components/Spinner";
 
+//formik Import
+import { useFormik } from "formik";
+
 //importing signinwithgoogle
 import {
   signInWithGoogle,
@@ -28,6 +31,9 @@ import toast, { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 
+//Formik(yup) Schema import
+import { basicSchema } from "@/schemas/registerSchema";
+
 //reducer(s) import
 import { logIn } from "../redux/Slices/userSlice";
 
@@ -38,6 +44,13 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [variant, setVariant] = useState("login");
   const [isLoading, setIsLoading] = useState(false);
+
+  const initialValues = {
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  };
 
   //useDispatch
   const dispatch = useDispatch<AppDispatch>();
@@ -99,20 +112,38 @@ const Auth = () => {
   }, [email, password, router]);
 
   //register button function
-  const register = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      await normalSignup(email, password);
-      setIsLoading(false);
-      toast.success("Registration sucessful");
-      //togle Varient
-      toggleVariant();
-    } catch (error) {
-      // console.log(error);
-      setIsLoading(false);
-      toast.error("Registration not successful");
-    }
-  }, [email, name, password, login]);
+  // const register = useCallback(async () => {
+  //   try {
+  //     setIsLoading(true);
+  //     await normalSignup(email, password);
+  //     setIsLoading(false);
+  //     toast.success("Registration sucessful");
+  //     //togle Varient
+  //     toggleVariant();
+  //   } catch (error) {
+  //     // console.log(error);
+  //     setIsLoading(false);
+  //     toast.error("Registration not successful");
+  //   }
+  // }, [email, name, password, login]);
+
+  const onSubmit = () => {
+    console.log("submitted");
+  };
+
+  //formik
+  const formik = useFormik({
+    initialValues,
+    validationSchema: basicSchema,
+    onSubmit,
+  });
+
+  console.log(
+    "formik error values",
+    formik.errors,
+    formik.touched,
+    formik.values
+  );
 
   return (
     <>
@@ -122,48 +153,104 @@ const Auth = () => {
             <h2 className="text-white text-4xl mb-8 font-semibold">
               {variant === "login" ? "Sign in" : "Register"}
             </h2>
-            <div className="flex flex-col gap-4">
-              {variant === "register" && (
+            <form onSubmit={formik.handleSubmit} autoComplete="off">
+              <div className="flex flex-col gap-4">
+                {variant === "register" && (
+                  <Input
+                    id="username"
+                    type="text"
+                    label="Username"
+                    value={formik.values.username}
+                    onChange={formik.handleChange} //
+                    onBlur={formik.handleBlur}
+                    // error={
+                    //   !!(formik.errors.username || formik.touched.username)
+                    // }
+                    error={
+                      formik.errors.username && formik.touched.username
+                        ? true
+                        : false
+                    }
+                  />
+                )}
+                {formik.errors.username && formik.touched.username && (
+                  <p className="text-red-600">{formik.errors.username}</p>
+                )}
                 <Input
-                  id="name"
-                  type="text"
-                  label="Username"
-                  value={name}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setName(e.target.value)
+                  id="email"
+                  type="email"
+                  label="Email address"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  // error={!!(formik.errors.email && formik.touched.email)}
+                  error={
+                    formik.errors.email && formik.touched.email ? true : false
                   }
                 />
-              )}
-              <Input
-                id="email"
-                type="email"
-                label="Email address"
-                value={email}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setEmail(e.target.value)
-                }
-              />
-              <Input
-                type="password"
-                id="password"
-                label="Password"
-                value={password}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setPassword(e.target.value)
-                }
-              />
-            </div>
-            <button
-              onClick={variant === "login" ? login : register}
-              disabled={isLoading}
-              className={` ${
-                isLoading
-                  ? "bg-white"
-                  : "bg-red-600  hover:bg-red-700 transition"
-              } py-3 text-white rounded-md w-full mt-10 `}
-            >
-              {isLoading ? <Spinner /> : variant}
-            </button>
+                {formik.errors.email && formik.touched.email && (
+                  <p className="text-red-600">{formik.errors.email}</p>
+                )}
+                <Input
+                  type="password"
+                  id="password"
+                  label="Password"
+                  value={formik.values.password} // !!REQURED ==> true
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  // error={!!(formik.errors.password && formik.touched.password)}
+                  error={
+                    formik.errors.password && formik.touched.password
+                      ? true
+                      : false
+                  }
+                />
+                {formik.errors.password && formik.touched.password && (
+                  <p className="text-red-600">{formik.errors.password}</p>
+                )}
+                {variant === "register" && (
+                  <Input
+                    type="password"
+                    id="confirmPassword"
+                    label="Confirm Password"
+                    value={formik.values.confirmPassword}
+                    onChange={formik.handleChange} //
+                    onBlur={formik.handleBlur}
+                    // error={
+                    //   !!(
+                    //     formik.errors.confirmPassword ||
+                    //     formik.touched.confirmPassword
+                    //   )
+                    // }
+                    error={
+                      formik.errors.confirmPassword &&
+                      !formik.touched.confirmPassword
+                        ? true
+                        : false
+                    }
+                  />
+                )}
+                {formik.errors.confirmPassword &&
+                  !formik.touched.confirmPassword && (
+                    <p className="text-red-600">
+                      {formik.errors.confirmPassword}
+                    </p>
+                  )}
+              </div>
+              <button
+                // onClick={variant === "login" ? login : register}
+                type="submit"
+                // disabled={isLoading}
+                disabled={formik.isSubmitting}
+                className={` ${
+                  isLoading
+                    ? "bg-white"
+                    : "bg-red-600  hover:bg-red-700 transition"
+                } py-3 text-white rounded-md w-full mt-10 `}
+              >
+                {isLoading ? <Spinner /> : variant}
+              </button>
+            </form>
             <div className="flex flex-row items-center gap-4 mt-8 justify-center">
               <div
                 onClick={handleGoogleSignIn}

@@ -2,21 +2,33 @@ import React from "react";
 
 interface InputProps {
   id: string;
-  onChange: any;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+
   value: string;
   label: string;
   type?: string;
+  error?: boolean;
 }
 
-const Input: React.FC<InputProps> = ({ id, onChange, value, label, type }) => {
+const Input: React.FC<InputProps> = ({
+  id,
+  onChange,
+  onBlur,
+  value,
+  label,
+  type,
+  error,
+}) => {
   return (
     <div className="relative">
       <input
         onChange={onChange}
+        onBlur={onBlur}
         value={value}
         type={type}
         id={id}
-        className="
+        className={`
         block
         rounded-md
         px-6
@@ -27,11 +39,12 @@ const Input: React.FC<InputProps> = ({ id, onChange, value, label, type }) => {
       text-white
       bg-neutral-700
         appearance-none
-        focus:outline-none
+        focus:outline-none  
         focus:ring-0
         peer
+        ${error ? "border-red-600" : ""}
         invalid:border-b-1
-        "
+        `}
         placeholder=" "
       />
       <label
