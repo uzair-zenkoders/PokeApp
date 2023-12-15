@@ -1,5 +1,5 @@
 //react imports
-import { useCallback, useState } from "react";
+import { Fragment, useCallback, useState } from "react";
 import { ChangeEvent } from "react";
 
 //Next Imports
@@ -37,11 +37,14 @@ import { basicSchema } from "@/schemas/registerSchema";
 //reducer(s) import
 import { logIn } from "../redux/Slices/userSlice";
 
+import * as yup from "yup";
+
 const Auth = () => {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
+  //--now formik handeling these--/
+  // const [email, setEmail] = useState("");
+  // const [name, setName] = useState("");
+  // const [password, setPassword] = useState("");
   const [variant, setVariant] = useState("login");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -51,6 +54,50 @@ const Auth = () => {
     password: "",
     confirmPassword: "",
   };
+
+  const onSubmit = async () => {
+    if (variant === "login") {
+      await login();
+    } else {
+      await register();
+    }
+  };
+
+  const vSchema = yup.object().shape({
+    username:
+      variant === "login"
+        ? yup.string()
+        : yup.string().min(4).required("Required"),
+    email: yup
+      .string()
+      .email("Please enter a valid email")
+      .required("Required"),
+    password: yup
+      .string()
+      .min(5)
+      .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/, {
+        message:
+          "min 5 characters, 1 upper case letter, 1 lower case letter, 1 numeric digit  ",
+      })
+      .required("Required"),
+    confirmPassword:
+      variant === "login"
+        ? yup.string()
+        : yup
+            .string()
+            .nullable()
+            .oneOf([yup.ref("password"), null], "Passwords must match")
+            .required("Required"),
+  });
+
+  //formik
+  const formik = useFormik({
+    initialValues,
+    validationSchema: vSchema,
+    onSubmit,
+  });
+
+  console.log(formik.errors);
 
   //useDispatch
   const dispatch = useDispatch<AppDispatch>();
@@ -86,11 +133,14 @@ const Auth = () => {
     }
   };
 
-  //(email-pass) login button function
+  // --(email-pass) login button function--
   const login = useCallback(async () => {
     try {
       setIsLoading(true);
-      const signIn = await signInWithEmailPassword(email, password);
+      const signIn = await signInWithEmailPassword(
+        formik.values.email,
+        formik.values.password
+      );
       //now state update in redux
       dispatch(
         // @ts-ignore
@@ -109,44 +159,39 @@ const Auth = () => {
       setIsLoading(false);
       toast.error("Error signing in, please Try again");
     }
-  }, [email, password, router]);
+  }, [formik.values.email, formik.values.password, router]);
 
-  //register button function
-  // const register = useCallback(async () => {
-  //   try {
-  //     setIsLoading(true);
-  //     await normalSignup(email, password);
-  //     setIsLoading(false);
-  //     toast.success("Registration sucessful");
-  //     //togle Varient
-  //     toggleVariant();
-  //   } catch (error) {
-  //     // console.log(error);
-  //     setIsLoading(false);
-  //     toast.error("Registration not successful");
-  //   }
-  // }, [email, name, password, login]);
+  // --register button function--
+  const register = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      await normalSignup(formik.values.email, formik.values.password);
+      setIsLoading(false);
+      toast.success("Registration sucessful");
+      //togle Varient
+      toggleVariant();
+    } catch (error) {
+      // console.log(error);
+      setIsLoading(false);
+      toast.error("Registration not successful");
+    }
+  }, [
+    formik.values.email,
+    formik.values.username,
+    formik.values.password,
+    login,
+    toggleVariant,
+  ]);
 
-  const onSubmit = () => {
-    console.log("submitted");
-  };
-
-  //formik
-  const formik = useFormik({
-    initialValues,
-    validationSchema: basicSchema,
-    onSubmit,
-  });
-
-  console.log(
-    "formik error values",
-    formik.errors,
-    formik.touched,
-    formik.values
-  );
+  // console.log(
+  //   "formik error values",
+  //   formik.errors,
+  //   formik.touched,
+  //   formik.values
+  // );
 
   return (
-    <>
+    <Fragment>
       <div>
         <div className="flex justify-center py-20 sm:pl-0 sm:pr-0 pl-3 pr-3">
           <div className="bg-black bg-opacity-70 px-16 py-16 self-center mt-2 lg:w-2/5 lg:max-w-md rounded-md w-full">
@@ -163,9 +208,6 @@ const Auth = () => {
                     value={formik.values.username}
                     onChange={formik.handleChange} //
                     onBlur={formik.handleBlur}
-                    // error={
-                    //   !!(formik.errors.username || formik.touched.username)
-                    // }
                     error={
                       formik.errors.username && formik.touched.username
                         ? true
@@ -174,8 +216,11 @@ const Auth = () => {
                   />
                 )}
                 {formik.errors.username && formik.touched.username && (
-                  <p className="text-red-600">{formik.errors.username}</p>
+                  <p className="text-sm text-red-600">
+                    {formik.errors.username}
+                  </p>
                 )}
+
                 <Input
                   id="email"
                   type="email"
@@ -183,14 +228,14 @@ const Auth = () => {
                   value={formik.values.email}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  // error={!!(formik.errors.email && formik.touched.email)}
                   error={
                     formik.errors.email && formik.touched.email ? true : false
                   }
                 />
                 {formik.errors.email && formik.touched.email && (
-                  <p className="text-red-600">{formik.errors.email}</p>
+                  <p className="text-sm text-red-600">{formik.errors.email}</p>
                 )}
+
                 <Input
                   type="password"
                   id="password"
@@ -198,16 +243,20 @@ const Auth = () => {
                   value={formik.values.password} // !!REQURED ==> true
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  // error={!!(formik.errors.password && formik.touched.password)}
                   error={
-                    formik.errors.password && formik.touched.password
+                    formik.errors.password &&
+                    formik.touched.password &&
+                    variant !== "login"
                       ? true
                       : false
                   }
                 />
                 {formik.errors.password && formik.touched.password && (
-                  <p className="text-red-600">{formik.errors.password}</p>
+                  <p className="text-sm text-red-600">
+                    {formik.errors.password}
+                  </p>
                 )}
+
                 {variant === "register" && (
                   <Input
                     type="password"
@@ -216,23 +265,17 @@ const Auth = () => {
                     value={formik.values.confirmPassword}
                     onChange={formik.handleChange} //
                     onBlur={formik.handleBlur}
-                    // error={
-                    //   !!(
-                    //     formik.errors.confirmPassword ||
-                    //     formik.touched.confirmPassword
-                    //   )
-                    // }
                     error={
                       formik.errors.confirmPassword &&
-                      !formik.touched.confirmPassword
+                      formik.touched.confirmPassword
                         ? true
                         : false
                     }
                   />
                 )}
                 {formik.errors.confirmPassword &&
-                  !formik.touched.confirmPassword && (
-                    <p className="text-red-600">
+                  formik.touched.confirmPassword && (
+                    <p className="text-sm text-red-600">
                       {formik.errors.confirmPassword}
                     </p>
                   )}
@@ -261,7 +304,7 @@ const Auth = () => {
             </div>
             <p className="text-neutral-500 mt-12">
               {variant === "login"
-                ? "First time using Netflix?"
+                ? "First time using PokeApp?"
                 : "Already have an account?"}
               <span
                 onClick={toggleVariant}
@@ -275,7 +318,7 @@ const Auth = () => {
         </div>
         <Toaster position="top-right" reverseOrder={true} />
       </div>
-    </>
+    </Fragment>
   );
 };
 
