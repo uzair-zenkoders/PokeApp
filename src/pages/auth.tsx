@@ -215,11 +215,13 @@ const Auth = () => {
                     }
                   />
                 )}
-                {formik.errors.username && formik.touched.username && (
-                  <p className="text-sm text-red-600">
-                    {formik.errors.username}
-                  </p>
-                )}
+                {variant === "register" &&
+                  formik.errors.username &&
+                  formik.touched.username && (
+                    <p className="text-sm text-red-600">
+                      {formik.errors.username}
+                    </p>
+                  )}
 
                 <Input
                   id="email"
@@ -251,11 +253,13 @@ const Auth = () => {
                       : false
                   }
                 />
-                {formik.errors.password && formik.touched.password && (
-                  <p className="text-sm text-red-600">
-                    {formik.errors.password}
-                  </p>
-                )}
+                {variant === "register" &&
+                  formik.errors.password &&
+                  formik.touched.password && (
+                    <p className="text-sm text-red-600">
+                      {formik.errors.password}
+                    </p>
+                  )}
 
                 {variant === "register" && (
                   <Input
@@ -273,12 +277,13 @@ const Auth = () => {
                     }
                   />
                 )}
-                {formik.errors.confirmPassword &&
-                  formik.touched.confirmPassword && (
-                    <p className="text-sm text-red-600">
-                      {formik.errors.confirmPassword}
-                    </p>
-                  )}
+                {variant === "register" &&
+                formik.errors.confirmPassword &&
+                formik.touched.confirmPassword ? (
+                  <div className="text-sm text-red-600">
+                    {formik.errors.confirmPassword}
+                  </div>
+                ) : null}
               </div>
               <button
                 // onClick={variant === "login" ? login : register}
