@@ -27,7 +27,8 @@ const rootReducer = combineReducers({
   auth: authReducer,
 });
  //sui
-const whiteList = ["authReducer"];
+// const whiteList = ["authReducer"];
+
 //persist config
 const persistConfig = {
   key: "root",
