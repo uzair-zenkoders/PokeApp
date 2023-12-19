@@ -26,7 +26,7 @@ import storage from "redux-persist/lib/storage"; // Defaults to localStorage for
 const rootReducer = combineReducers({
   auth: authReducer,
 });
-
+ //sui
 const whiteList = ["authReducer"];
 //persist config
 const persistConfig = {
