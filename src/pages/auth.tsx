@@ -63,16 +63,23 @@ const Auth = () => {
     }
   };
 
+
+  //Validation Schema
   const vSchema = yup.object().shape({
+    //USERNAME
     username:
       variant === "login"
         ? yup.string()
         : yup.string().min(4).required("Required"),
-    email: yup
+        //EMAIL
+    email: variant === "login"
+    ? yup.string().required("required").email("enter a valid email")
+    :yup
       .string()
       .email("Please enter a valid email")
       .required("Required"),
-    password: yup
+      //PASSWORD
+    password: variant==="login"?yup.string().required("Required"):yup
       .string()
       .min(5)
       .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/, {
@@ -80,6 +87,7 @@ const Auth = () => {
           "min 5 characters, 1 upper case letter, 1 lower case letter, 1 numeric digit  ",
       })
       .required("Required"),
+      //CONFIRM PASSWORD  
     confirmPassword:
       variant === "login"
         ? yup.string()
@@ -247,13 +255,14 @@ const Auth = () => {
                   onBlur={formik.handleBlur}
                   error={
                     formik.errors.password &&
-                    formik.touched.password &&
-                    variant !== "login"
+                    formik.touched.password 
+                    // && variant !== "login"
                       ? true
                       : false
                   }
                 />
-                {variant === "register" &&
+                {/* {variant === "register" && */}
+                {
                   formik.errors.password &&
                   formik.touched.password && (
                     <p className="text-sm text-red-600">
