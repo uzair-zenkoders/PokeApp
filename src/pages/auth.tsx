@@ -32,7 +32,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 
 //Formik(yup) Schema import
-import { basicSchema } from "@/schemas/registerSchema";
+// import { basicSchema } from "@/schemas/registerSchema";
 
 //reducer(s) import
 import { logIn } from "../redux/Slices/userSlice";
