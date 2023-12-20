@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React from "react";
 
 const Card = ({ id, title }: { id: string; title: string }) => {
   // const { id, title } = props;

@@ -1,5 +1,5 @@
 // // React Imports
-import { FC, Fragment, useEffect, useState } from "react";
+import { FC, Fragment } from "react";
 import NavBar from "./components/Navbar";
 import { useRouter } from "next/router";
 
@@ -9,7 +9,7 @@ interface IHigherOrderComponentProps {
 
 const HigherOrderComponent: FC<IHigherOrderComponentProps> = ({ children }) => {
   const router = useRouter();
-  const excludeNavbarRoutes = ["/auth"]; // Add routes where you want to exclude the NavBar
+  const excludeNavbarRoutes = ["/login","/register"]; // Add routes where you want to exclude the NavBar
 
   const shouldShowNavBar = !excludeNavbarRoutes.some((route) =>
     router.pathname.startsWith(route)

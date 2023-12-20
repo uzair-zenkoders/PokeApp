@@ -15,7 +15,8 @@ interface HomeProps {
 }
 
 export default function Home({ pokemonData }: HomeProps) {
-  const [pokeData, setPokeData] = useState<IPokemonData[]>(pokemonData);
+  // const [pokeData, setPokeData] = useState<IPokemonData[]>(pokemonData);
+  const pokeData:IPokemonData[]=(pokemonData);
 
   //searchBar value
   const [searchValue, setSearchValue] = useState("");

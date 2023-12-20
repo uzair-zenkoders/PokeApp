@@ -15,8 +15,10 @@ import { useAppSelector } from "@/redux/store";
 //redux slice method import
 import { logOut } from "@/redux/Slices/userSlice";
 
+//redux import(s)
 import { useDispatch } from "react-redux";
 
+//////////////////////
 const NavBar = () => {
   const imgURL =
     "https://www.clevelanddentalhc.com/wp-content/uploads/2018/03/sample-avatar.jpg";
@@ -53,7 +55,7 @@ const NavBar = () => {
       await userSignOut();
       //@ts-ignore
       dispatch(logOut());
-      router.push("./auth");
+      router.push("./login");
       toast.success("You are signed out!");
     } catch (err) {
       // console.log(err);

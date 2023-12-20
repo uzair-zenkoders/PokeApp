@@ -1,5 +1,10 @@
 import React from "react";
-const Spinner = () => {
+
+interface SpinnerProps{
+
+}
+
+const Spinner:React.FC<SpinnerProps> = () => {
   return (
     <div className="text-center">
       <div role="status">
