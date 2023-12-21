@@ -85,3 +85,23 @@ export const editPokeData = async (
 export const deletePokebyId = async (docId: string) => {
   await deleteDoc(doc(db, "pokemons", docId)); // Specify the document reference using docId
 };
+
+//Search Pokemon by name
+import { query, where } from "firebase/firestore";
+export const searchPokemonByName = async (que: string) => {
+  const filteredPokes: IPokemon[] | undefined = []
+  const docRef = collection(db, "pokemons");
+  // const q = query(docRef, where(`name`, "==", que)); 
+  const q = query(
+    docRef,
+    where("name", ">=", que),
+    where("name", "<=", que + "\uf8ff")
+  );
+  //
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    filteredPokes.push(doc.data() as IPokemon)
+  })
+  console.log("service log:", filteredPokes)
+  return filteredPokes;
+}

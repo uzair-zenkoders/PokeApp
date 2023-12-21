@@ -1,5 +1,5 @@
 import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
+import { NextResponse } from "next/server"; 
 
 export function middleware(req: NextRequest) {
   const userData = req.cookies.get("userData")?.value;
@@ -7,7 +7,8 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl.clone();
 
   const publicRoutes = ["/login","/register"];
-  const protectedRoutes = ["/"];
+  // const protectedRoutes = ["/"]
+ 
 
   if (userData && !publicRoutes.includes(pathname)) {
     return NextResponse.next(); // Token exists and route is not public
