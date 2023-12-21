@@ -84,8 +84,9 @@ const RegisterView: React.FC<RegisterProps> = () => {
           <h2 className="text-white text-4xl mb-8 font-semibold">
             Register
           </h2>
-
+          
           <form onSubmit={handleSubmit} autoComplete="off">
+          <div className="flex flex-col gap-4">
             <Input
               id="username"
               type="text"
@@ -122,7 +123,7 @@ const RegisterView: React.FC<RegisterProps> = () => {
               onBlur={handleBlur}
               error={!!(touched.confirmPassword && errors.confirmPassword)}
             />{!!(touched.confirmPassword && errors.confirmPassword) && <p className='text-sm text-red-600'>{errors.confirmPassword}</p>}
-
+            </div>
             <button
               type="submit"
               // disabled={isLoading}

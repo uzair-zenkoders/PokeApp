@@ -6,7 +6,7 @@ import { ChangeEvent } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 //local component import(s)
-import Input from "./Input";
+import Input from "../Input";
 
 //local-firebase-service import
 import { deletePokebyId, editPokeData } from "@/services/pokemon.service";

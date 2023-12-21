@@ -3,8 +3,8 @@ import { ChangeEvent, Fragment, useState } from "react";
 import { getAllPokemon } from "@/services/pokemon.service";
 
 //local Components Import
-import Card from "@/components/Card";
-import NewSearchBar from "@/components/NewSearchBar";
+import Card from "../components/Card";
+import NewSearchBar from "../components/SearchBar";
 
 //type(s) import
 import { IPokemonData } from "@/types/Pokemon.interface";

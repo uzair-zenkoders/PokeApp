@@ -1,5 +1,5 @@
 //firebase service import
-import DetailsCard from "@/components/DetailCard";
+import DetailsCard from "../../components/DetailsCard";
 import { getPokemonbyId } from "@/services/pokemon.service";
 
 //next import(s)

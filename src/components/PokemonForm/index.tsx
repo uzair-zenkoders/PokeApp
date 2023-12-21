@@ -9,7 +9,7 @@ import { Label, TextInput, Button } from "flowbite-react";
 import toast, { Toaster } from "react-hot-toast";
 
 //firebase crud functions import
-import { addPokemon } from "../services/pokemon.service";
+import { addPokemon } from "../../services/pokemon.service";
 
 //types import
 import { IPokeData } from "@/types/PokeData.interface";

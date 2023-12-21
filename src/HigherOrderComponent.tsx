@@ -1,6 +1,6 @@
 // // React Imports
 import { FC, Fragment } from "react";
-import NavBar from "./components/Navbar";
+import NavBar from "./components/NavBar";
 import { useRouter } from "next/router";
 
 interface IHigherOrderComponentProps {
