@@ -9,7 +9,9 @@ interface PropsInterface {
 
 const NewSearchBar: React.FC<PropsInterface> = ({ value, onChange }) => {
   return (
-    <form className="w-[1000px] relative">
+    // <form className="w-auto px-10 pt-10 flex justify-center">
+    <form className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-10">
+    {/* <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"> */}
       <div className="relative">
         <input
           type="search"

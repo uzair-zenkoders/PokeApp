@@ -4,7 +4,7 @@ import { getAllPokemon } from "@/services/pokemon.service";
 
 //local Components Import
 import Card from "../components/Card";
-import NewSearchBar from "../components/SearchBar";
+import SearchBar from "../components/SearchBar";
 
 //type(s) import
 import { IPokemonData } from "@/types/Pokemon.interface";
@@ -35,10 +35,8 @@ export default function Home({ pokemonData }: HomeProps) {
 
   return (
     <Fragment>
+        <SearchBar onChange={handleSearch} value={searchValue} />
       <div className="my-12 mx-40">
-        {/* searchBar */}
-        {/* <SearchBar onChange={handleSearch} value={searchValue} /> */}
-        <NewSearchBar onChange={handleSearch} value={searchValue} />
       </div>
       {/* mapping cards */}
       <div className="container mx-auto px-4 my-10">
